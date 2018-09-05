@@ -7,8 +7,8 @@
 		}
 	},
 	"name": "Google NCR",
-	"version": "1.1",
-	"description": "Google - No Country Redirect.\n\nOn browser start go to \"https://www.google.com/ncr\" to create the google's No-Country-Redirect cookie.",
+	"version": "1.2",
+	"description": "Google - No Country Redirect. \n\nOn browser start go to https://www.google.com/ncr to create the google's 'No Country Redirect' cookie.",
 	"author": "arielg",
 	"permissions": [
 		"tabs"

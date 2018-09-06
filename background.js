@@ -27,20 +27,17 @@ class GNCRBackground {
 	///////////////////////////////////////////////////////////////
 	//
 	run() {
-
-		let self = this;
-
 		browser.tabs.create({
 			active: false,
 			index: 0,
 			pinned: true,
-			url: self.const.URL_GOOGLE_NCR,
+			url: this.const.URL_GOOGLE_NCR,
 		}).then((createdTab) => {
 
 			///////////////////////////////////////////////////////
 			async function dispose(disposeTabId, timedout = false) {
 				browser.tabs.remove(disposeTabId)
-				browser.tabs.onUpdated.removeListener(onUpdated);
+				browser.tabs.onUpdated.removeListener(onUpdatedBound);
 				if(timedout) {
 					console.log("[Google NCR]", "Timed out");
 				}
@@ -48,14 +45,15 @@ class GNCRBackground {
 
 			///////////////////////////////////////////////////////
 			function onUpdated(tabId, changeInfo, updatedTab) {
-				if(tabId === createdTab.id && updatedTab.status === "complete" && updatedTab.url.startsWith(self.const.URL_GOOGLE)) {
+				if(tabId === createdTab.id && updatedTab.status === "complete" && updatedTab.url.startsWith(this.const.URL_GOOGLE)) {
 					dispose(createdTab.id);
 					clearTimeout(disposeTimer);
 				}
 			};
 
-			browser.tabs.onUpdated.addListener(onUpdated);
-			let disposeTimer = setTimeout(() => dispose(createdTab.id, true), self.const.TIMEOUT_DISPOSE_MILLISEC);
+			let onUpdatedBound = onUpdated.bind(this);
+			browser.tabs.onUpdated.addListener(onUpdatedBound);
+			let disposeTimer = setTimeout(() => dispose(createdTab.id, true), this.const.TIMEOUT_DISPOSE_MILLISEC);
 
 		}).catch((error) => {
 			console.log("[Google NCR]", error);

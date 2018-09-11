@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="preferences.css"/>
+	<script src="prefs.js"></script>
+	<script src="preferences.js"></script>
+</head>
+
+<body>
+
+	<label class="caption">Options</label>
+	<div class="prefSeperator"></div>
+
+	<div class="preference">
+		<label for="disposeTimeout" class="preferenceLabel">Web Request Timeout&nbsp;<span class="helpInfo" title="Timeout range: 10 - 60 seconds.">?</span></label>
+		<div class="preferenceControl">
+			<input type="text" id="disposeTimeout" class="numericInput" required minlength="2" maxlength="2"
+				pattern="^([1-5][0-9]|60)$"/><label for="disposeTimeout">&nbsp;seconds</label>
+		</div>
+	</div>
+	<div class="prefSeperator"></div>
+
+	<div class="preference">
+		<div class="preferenceControl">
+            <button type="button" class="controlButton" id="btnReloadExtension">Reload Extension</button>
+			<button type="button" class="controlButton" id="btnRestoreDefaults">Restore Defaults</button>
+		</div>
+	</div>
+    <br/>
+    <p class="annotation">&#10033;&nbsp;Clicking <b>Reload Extension</b> may require reloading this page.</p>
+
+</body>
+
+</html>

@@ -7,20 +7,36 @@
 		}
 	},
 	"name": "Google NCR",
-	"version": "1.4",
+	"version": "1.5",
 	"description": "Google - No Country Redirect. \n\nOn browser start, go to https://www.google.com/ncr to acquire Google's cookies that will preserve the 'No Country Redirect' instruction.",
 	"author": "arielg",
 	"permissions": [
-		"tabs"
+		"tabs",
+		"notifications",
+		"storage"
 	],
 	"icons": {
 		"16": "icons/ncr-16.png",
 		"32": "icons/ncr-32.png",
 		"48": "icons/ncr-48.png"
 	},
+	"browser_action": {
+		"browser_style": true,
+		"default_title": "Google NCR",
+		"default_icon": {
+			"16": "icons/ncr-16.png",
+			"32": "icons/ncr-32.png",
+			"48": "icons/ncr-48.png"
+		}
+	},
 	"background": {
 		"scripts": [
+			"preferences/prefs.js",
 			"background.js"
 		]
+	},
+	"options_ui": {
+		"browser_style": true,
+		"page": "preferences/preferences.html"
 	}
 }

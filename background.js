@@ -52,6 +52,13 @@ function GNCRBackground() {
 }
 
 //////////////////////////////////////////////////////////////////////
+function delayedActivation() {
+	prefs.getDelayedActivationTimeout().then((timeout) => {
+		setTimeout(() => GNCRBackground(), (timeout*1000));
+	});
+}
+
+//////////////////////////////////////////////////////////////////////
 function createNotification(message, timeout = 4300) {
 
 	let notifId = "GoogleNCR-" + window.btoa(message);
@@ -68,5 +75,5 @@ function createNotification(message, timeout = 4300) {
 	setTimeout(() => browser.notifications.clear(notifId), timeout);
 }
 
-browser.runtime.onStartup.addListener(GNCRBackground);
+browser.runtime.onStartup.addListener(delayedActivation);
 browser.browserAction.onClicked.addListener(GNCRBackground);

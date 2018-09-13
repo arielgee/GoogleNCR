@@ -2,6 +2,7 @@
 
 let preferences = (function() {
 
+	let m_elmDelayedActivationTimeout;
 	let m_elmDisposeTimeout;
 
 	let m_elmBtnReloadExtension;
@@ -13,6 +14,7 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function onDOMContentLoaded() {
 
+		m_elmDelayedActivationTimeout = document.getElementById("delayedActivationTimeout");
 		m_elmDisposeTimeout = document.getElementById("disposeTimeout");
 
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
@@ -27,6 +29,7 @@ let preferences = (function() {
 		document.removeEventListener("DOMContentLoaded", onDOMContentLoaded);
 		window.removeEventListener("unload", onUnload);
 
+		m_elmDelayedActivationTimeout.removeEventListener("change", onChangeDelayedActivationTimeout);
 		m_elmDisposeTimeout.removeEventListener("change", onChangeDisposeTimeout);
 
 		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
@@ -37,6 +40,7 @@ let preferences = (function() {
 	function addEventListeners() {
 
 		// save preferences when changed
+		m_elmDelayedActivationTimeout.addEventListener("change", onChangeDelayedActivationTimeout);
 		m_elmDisposeTimeout.addEventListener("change", onChangeDisposeTimeout);
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
@@ -46,6 +50,10 @@ let preferences = (function() {
 	////////////////////////////////////////////////////////////////////////////////////
 	function getSavedPreferences() {
 
+		prefs.getDelayedActivationTimeout().then((timeout) => {
+			m_elmDelayedActivationTimeout.value = timeout;
+		});
+
 		prefs.getDisposeTimeout().then((timeout) => {
 			m_elmDisposeTimeout.value = timeout;
 		});
@@ -54,6 +62,17 @@ let preferences = (function() {
 	//==================================================================================
 	//=== Event Listeners
 	//==================================================================================
+
+	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeDelayedActivationTimeout(event) {
+		if(m_elmDelayedActivationTimeout.value.match(m_elmDelayedActivationTimeout.pattern) === null) {
+			prefs.getDelayedActivationTimeout().then((timeout) => {
+				m_elmDelayedActivationTimeout.value = timeout;
+			});
+		} else {
+			prefs.setDelayedActivationTimeout(m_elmDelayedActivationTimeout.value);
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	function onChangeDisposeTimeout(event) {
@@ -78,6 +97,7 @@ let preferences = (function() {
 	function onClickBtnRestoreDefaults(event) {
 		let defPrefs = prefs.restoreDefaults();
 
+		m_elmDelayedActivationTimeout.value = defPrefs.delayedActivationTimeout;
 		m_elmDisposeTimeout.value = defPrefs.disposeTimeout;
 	}
 

@@ -7,7 +7,7 @@
 		}
 	},
 	"name": "Google NCR",
-	"version": "1.5",
+	"version": "1.6",
 	"description": "Google - No Country Redirect. \n\nOn browser start, go to https://www.google.com/ncr to acquire Google's cookies that will preserve the 'No Country Redirect' instruction.",
 	"author": "arielg",
 	"permissions": [

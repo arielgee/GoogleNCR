@@ -14,6 +14,15 @@
 	<div class="prefSeperator"></div>
 
 	<div class="preference">
+		<label for="delayedActivationTimeout" class="preferenceLabel">Delay Activation After Browser Startup&nbsp;<span class="helpInfo" title="Delay range: 0 - 30 seconds.">?</span></label>
+		<div class="preferenceControl">
+			<input type="text" id="delayedActivationTimeout" class="numericInput" required minlength="1" maxlength="2"
+				pattern="^([0-9]|[1-2][0-9]|30)$"/><label for="delayedActivationTimeout">&nbsp;seconds</label>
+		</div>
+	</div>
+	<div class="prefSeperator"></div>
+
+	<div class="preference">
 		<label for="disposeTimeout" class="preferenceLabel">Web Request Timeout&nbsp;<span class="helpInfo" title="Timeout range: 10 - 60 seconds.">?</span></label>
 		<div class="preferenceControl">
 			<input type="text" id="disposeTimeout" class="numericInput" required minlength="2" maxlength="2"

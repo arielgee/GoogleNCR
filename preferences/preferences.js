@@ -4,6 +4,7 @@ let preferences = (function() {
 
 	let m_elmDelayedActivationTimeout;
 	let m_elmDisposeTimeout;
+	let m_elmShowNotificationOnSuccess;
 
 	let m_elmBtnReloadExtension;
 	let m_elmBtnRestoreDefaults;
@@ -16,6 +17,7 @@ let preferences = (function() {
 
 		m_elmDelayedActivationTimeout = document.getElementById("delayedActivationTimeout");
 		m_elmDisposeTimeout = document.getElementById("disposeTimeout");
+		m_elmShowNotificationOnSuccess = document.getElementById("showNotificationOnSuccess");
 
 		m_elmBtnReloadExtension = document.getElementById("btnReloadExtension");
 		m_elmBtnRestoreDefaults = document.getElementById("btnRestoreDefaults");
@@ -31,6 +33,7 @@ let preferences = (function() {
 
 		m_elmDelayedActivationTimeout.removeEventListener("change", onChangeDelayedActivationTimeout);
 		m_elmDisposeTimeout.removeEventListener("change", onChangeDisposeTimeout);
+		m_elmShowNotificationOnSuccess.removeEventListener("change", onChangeShowNotificationOnSuccess);
 
 		m_elmBtnReloadExtension.removeEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.removeEventListener("click", onClickBtnRestoreDefaults);
@@ -42,6 +45,7 @@ let preferences = (function() {
 		// save preferences when changed
 		m_elmDelayedActivationTimeout.addEventListener("change", onChangeDelayedActivationTimeout);
 		m_elmDisposeTimeout.addEventListener("change", onChangeDisposeTimeout);
+		m_elmShowNotificationOnSuccess.addEventListener("change", onChangeShowNotificationOnSuccess);
 
 		m_elmBtnReloadExtension.addEventListener("click", onClickBtnReloadExtension);
 		m_elmBtnRestoreDefaults.addEventListener("click", onClickBtnRestoreDefaults);
@@ -56,6 +60,10 @@ let preferences = (function() {
 
 		prefs.getDisposeTimeout().then((timeout) => {
 			m_elmDisposeTimeout.value = timeout;
+		});
+
+		prefs.getShowNotificationOnSuccess().then((checked) => {
+			m_elmShowNotificationOnSuccess.checked = checked;
 		});
 	}
 
@@ -86,6 +94,11 @@ let preferences = (function() {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
+	function onChangeShowNotificationOnSuccess(event) {
+		prefs.setShowNotificationOnSuccess(m_elmShowNotificationOnSuccess.checked);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
 	function onClickBtnReloadExtension(event) {
 		setTimeout(() => {
 			browser.tabs.reload({ bypassCache: true });
@@ -99,6 +112,7 @@ let preferences = (function() {
 
 		m_elmDelayedActivationTimeout.value = defPrefs.delayedActivationTimeout;
 		m_elmDisposeTimeout.value = defPrefs.disposeTimeout;
+		m_elmShowNotificationOnSuccess.checked = defPrefs.showNotificationOnSuccess;
 	}
 
 })();

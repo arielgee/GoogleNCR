@@ -1,17 +1,22 @@
 "use strict";
 
 //////////////////////////////////////////////////////////////////////
-function GNCRBackground() {
+async function GNCRBackground() {
 
 	const URL_GOOGLE = "https://www.google.com";
 	const URL_GOOGLE_NCR = URL_GOOGLE + "/ncr";
+
+	let disposeTimeout = (await prefs.getDisposeTimeout()) * 1000;
+	let showNotification = (await prefs.getShowNotificationOnSuccess());
+
+	console.log("[Google NCR]", "GNCRBackground Activated");
 
 	browser.tabs.create({
 		active: false,
 		index: 0,
 		pinned: true,
 		url: URL_GOOGLE_NCR,
-	}).then(async (createdTab) => {
+	}).then((createdTab) => {
 
 		///////////////////////////////////////////////////////
 		async function dispose(disposeTabId, timedout = false) {
@@ -27,7 +32,10 @@ function GNCRBackground() {
 		function onUpdated(tabId, changeInfo, updatedTab) {
 			if(tabId === createdTab.id && updatedTab.status === "complete" && updatedTab.url.startsWith(URL_GOOGLE)) {
 				if(updatedTab.title === "Google") {
-					createNotification("Web request completed successfully.");
+					console.log("[Google NCR]", "Completed successfully");
+					if(showNotification) {
+						createNotification("Web request completed successfully.");
+					}
 				} else {
 					createNotification("The web request may have failed. Unexpected page title.");
 					console.log("[Google NCR]", "Unexpected page title");
@@ -37,12 +45,8 @@ function GNCRBackground() {
 			}
 		};
 
-		console.log("[Google NCR]", "GNCRBackground Activated");
-
 		browser.tabs.onUpdated.addListener(onUpdated);
-
-		let timeout = (await prefs.getDisposeTimeout()) * 1000;
-		let disposeTimer = setTimeout(() => dispose(createdTab.id, true), timeout);
+		let disposeTimer = setTimeout(() => dispose(createdTab.id, true), disposeTimeout);
 
 	}).catch((error) => {
 		console.log("[Google NCR]", "Error:", error);

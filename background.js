@@ -14,9 +14,11 @@ async function GNCRBackground() {
 	browser.tabs.create({
 		active: false,
 		index: 0,
-		pinned: true,
+		pinned: false,
 		url: URL_GOOGLE_NCR,
 	}).then((createdTab) => {
+
+		browser.tabs.hide(createdTab.id);
 
 		///////////////////////////////////////////////////////
 		async function dispose(disposeTabId, timedout = false) {
